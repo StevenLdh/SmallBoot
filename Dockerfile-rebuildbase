@@ -1,0 +1,5 @@
+FROM registry.cn-hangzhou.aliyuncs.com/acs/maven:3-jdk-8 as base-maven
+COPY settings.xml /usr/share/maven/conf/settings.xml
+ADD ./ /app/
+WORKDIR /app/
+RUN mvn clean package -s /usr/share/maven/conf/settings.xml -f /app/pom.xml

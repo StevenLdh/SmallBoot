@@ -1,0 +1,9 @@
+FROM williamyeh/java8
+RUN mkdir -p /opt/app/config  /opt/app/logs
+ENV LC_ALL=zh_CN.utf8
+ENV LANG=zh_CN.utf8
+ENV LANGUAGE=zh_CN.utf8
+RUN localedef -c -f UTF-8 -i zh_CN zh_CN.utf8
+ADD target/*.jar /opt/app/app.jar
+WORKDIR /opt/app
+ENTRYPOINT ["java","-jar","-Xmx512m","-Xms256m","app.jar"]

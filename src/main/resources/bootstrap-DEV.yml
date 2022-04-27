@@ -1,0 +1,16 @@
+spring:
+  application:
+    #服务名  此名字会记录到注册中心，同时也是配置中心的配置名
+    name: saas-statistics-service
+  cloud:
+    nacos:
+      handday:
+        server-addr: ${hdsaas-nacos-address}
+        namespace: ${hdsaas-nacos-namespace}
+        username: ${hdsaas-nacos-user}
+        password: ${hdsaas-nacos-password}
+      config:
+        #nacos 配置文件类型
+        file-extension: yaml
+        #nacos 配置文件所在分组
+        group: DEFAULT_GROUP

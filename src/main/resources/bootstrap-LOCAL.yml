@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: saas-statistics-service
+  cloud:
+    nacos:
+      handday:
+        server-addr: nacosx.facehand.cn:80
+        namespace: 2a5083d6-7530-49c7-bc17-c5098d49cfea
+        username: nacosdev
+        password: 123456
+      discovery:
+        register-enabled: false        
+      config:
+        file-extension: yaml
+        group: DEFAULT_GROUP_LOCAL
