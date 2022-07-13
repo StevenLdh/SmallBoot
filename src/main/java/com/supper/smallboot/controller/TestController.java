@@ -4,6 +4,7 @@ package com.supper.smallboot.controller;
 import com.supper.smallboot.biz.dto.CustomerDTO;
 import com.supper.smallboot.biz.vo.CustomerVO;
 import com.supper.smallboot.domain.service.ElasticService;
+import com.supper.smallboot.infrastructure.anaotation.Login;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -32,6 +33,7 @@ public class TestController {
     }
     @GetMapping("/get")
     @ApiOperation("获取数据")
+    @Login
     public List<CustomerVO.CustomerInfoVO> getAll() {
         return elasticService.getCustomerList(150000004L);
     }
