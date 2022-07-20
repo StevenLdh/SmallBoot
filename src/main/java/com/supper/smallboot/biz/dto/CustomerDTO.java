@@ -3,6 +3,8 @@ package com.supper.smallboot.biz.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 import javax.validation.constraints.NotNull;
 
@@ -15,6 +17,7 @@ public class CustomerDTO {
 
     @ApiModel(description = "保存客户资料")
     @Data
+    @Document(indexName = "import-study")
     public static class CustomerInfoDTO {
 
         @ApiModelProperty(value = "企业ID", required = true)
