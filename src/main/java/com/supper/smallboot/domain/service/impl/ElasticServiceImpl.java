@@ -34,11 +34,14 @@ public class ElasticServiceImpl implements ElasticService {
     @Override
     public Boolean saveCustomer(List<CustomerDTO.CustomerInfoDTO> dto, Long corpId) {
         String indexName = ElasticUtil.createIndexName(corpId, CustomerDTO.CustomerInfoDTO.class);
+        boolean flag = Boolean.TRUE;
         if (ElasticUtil.isExists(indexName)) {
             StringQuery stringQuery = new StringQuery(QueryBuilders.matchQuery(CORP_ID, corpId).toString());
             ElasticUtil.deleteDocument(indexName, stringQuery, CustomerDTO.CustomerInfoDTO.class);
+        } else {
+            flag = ElasticUtil.createIndex(indexName, CustomerDTO.CustomerInfoDTO.class);
         }
-        if (ElasticUtil.createIndex(indexName, CustomerDTO.CustomerInfoDTO.class)) {
+        if (flag) {
             ElasticUtil.save(indexName, dto);
             return Boolean.TRUE;
         }

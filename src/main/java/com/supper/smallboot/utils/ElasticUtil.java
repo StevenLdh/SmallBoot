@@ -30,6 +30,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -56,7 +57,7 @@ public class ElasticUtil {
 
     @Value("${spring.profiles.active}")
     public void setEnv(String env) {
-        ElasticUtil.env = env;
+        ElasticUtil.env = env.toLowerCase();
     }
 
     /**
