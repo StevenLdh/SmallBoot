@@ -1,4 +1,4 @@
-package com.supper.smallboot.utils;
+package com.supper.smallboot.infrastructure.utils;
 
 import com.handday.formless.framework.common.exception.BizException;
 import org.apache.commons.collections4.CollectionUtils;
