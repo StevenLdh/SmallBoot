@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * @Author ldh
- * @Description
+ * @Description sss
  * @Date 11:32 2022-07-12
  **/
 @Service
@@ -21,9 +21,10 @@ public class ElasticServiceImpl implements ElasticService {
 
 
     private static final String CORP_ID = "corpId";
+
+
     /**
      * @param dto
-     * @return
      * @Author ldh
      * @Description 保存数据
      * @Date 11:34 2022-07-12

@@ -12,22 +12,22 @@ import java.util.List;
  **/
 public interface ElasticService {
 
+
     /**
-     * @return
-     * @Author ldh
-     * @Description 保存数据
-     * @Date 11:34 2022-07-12
-     * @Param []
-     **/
+     * 保存数据
+     * @author ldh
+     * @date 2022-07-26 10:38
+     * @param dto
+     * @param corpId
+     */
     public Boolean saveCustomer(List<CustomerDTO.CustomerInfoDTO> dto,Long corpId);
 
     /**
-     * @return
-     * @Author ldh
-     * @Description 获取全部数据
-     * @Date 11:43 2022-07-12
-     * @Param []
-     **/
+     * 获取数据
+     * @author ldh
+     * @date 2022-07-26 10:39
+     * @param corpId
+     */
     public List<CustomerVO.CustomerInfoVO> getCustomerList(Long corpId);
 
 }

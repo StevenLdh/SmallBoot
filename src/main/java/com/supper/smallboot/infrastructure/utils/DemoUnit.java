@@ -7,7 +7,13 @@ package com.supper.smallboot.infrastructure.utils;
  **/
 public class DemoUnit {
 
+     /**
+      * 启动类
+      * @author ldh
+      * @date 2022-07-26 10:28
+      */
      public static void main(String[] args) {
-         System.out.println("test match aaa");
+
+
      }
 }
