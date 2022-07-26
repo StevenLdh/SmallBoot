@@ -19,6 +19,5 @@ public class SmallbootApplication {
     public static void main(String[] args) {
         SpringApplication.run(SmallbootApplication.class, args);
         log.info("=== smallboot start success === ");
- }
-
+    }
 }

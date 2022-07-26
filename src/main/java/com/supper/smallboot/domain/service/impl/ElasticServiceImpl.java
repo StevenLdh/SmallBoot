@@ -1,11 +1,13 @@
 package com.supper.smallboot.domain.service.impl;
 
+import com.supper.smallboot.application.mq.subscribe.CustomerUpdateExtPublish;
 import com.supper.smallboot.biz.dto.CustomerDTO;
 import com.supper.smallboot.biz.vo.CustomerVO;
 import com.supper.smallboot.domain.service.ElasticService;
 import com.supper.smallboot.infrastructure.utils.ElasticUtil;
 import io.seata.spring.annotation.GlobalTransactional;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.query.StringQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,8 @@ public class ElasticServiceImpl implements ElasticService {
 
     private static final String CORP_ID = "corpId";
 
+    @Autowired
+    private CustomerUpdateExtPublish customerUpdateExtPublish;
 
     /**
      * @param dto
@@ -34,6 +38,7 @@ public class ElasticServiceImpl implements ElasticService {
     @Transactional(rollbackFor = Exception.class)
     @GlobalTransactional(rollbackFor = Exception.class)
     public Boolean saveCustomer(List<CustomerDTO.CustomerInfoDTO> dto, Long corpId) {
+        customerUpdateExtPublish.sendCustomerUpdateExt(dto);
         String indexName = ElasticUtil.createIndexName(corpId, CustomerDTO.CustomerInfoDTO.class);
         boolean flag = Boolean.TRUE;
         if (ElasticUtil.isExists(indexName)) {
