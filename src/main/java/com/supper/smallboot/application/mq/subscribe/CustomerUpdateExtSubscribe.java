@@ -11,6 +11,8 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author ldh
@@ -30,9 +32,9 @@ public class CustomerUpdateExtSubscribe {
     @StreamListener(CustomerUpdateExtChannel.INPUT)
     public void processCustomerUpdateExt(String message) throws Exception{
         log.info("接收到消息：" + message);
-        CustomerDTO.CustomerInfoDTO dto = new  CustomerDTO.CustomerInfoDTO();
+        List<CustomerDTO.CustomerInfoDTO> dto = new ArrayList<>();
         if (StringUtils.isNotBlank(message)) {
-            Type LIST_STRING = new TypeReference< CustomerDTO.CustomerInfoDTO>() {
+            Type LIST_STRING = new TypeReference<List<CustomerDTO.CustomerInfoDTO>>() {
             }.getType();
             dto = JSON.parseObject(message, LIST_STRING);
         }
