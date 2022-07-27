@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.supper.smallboot.application.mq.channel.CustomerUpdateExtChannel;
 import com.supper.smallboot.biz.dto.CustomerDTO;
-import io.swagger.v3.oas.annotations.media.Encoding;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.stream.annotation.EnableBinding;
