@@ -9,5 +9,7 @@ import org.springframework.stereotype.Component;
  * @Date 11:31 2022-07-26
  **/
 @Component
-public class GoodsServiceFailBack implements GoodsService {
+public class GoodsServiceFailBackImpl implements GoodsService {
+
+
 }

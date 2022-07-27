@@ -1,5 +1,6 @@
 package com.supper.smallboot.domain.service.impl;
 
+import com.handday.formless.framework.redis.RedisRepository;
 import com.supper.smallboot.application.mq.subscribe.CustomerUpdateExtPublish;
 import com.supper.smallboot.biz.dto.CustomerDTO;
 import com.supper.smallboot.biz.vo.CustomerVO;
@@ -27,6 +28,9 @@ public class ElasticServiceImpl implements ElasticService {
     @Autowired
     private CustomerUpdateExtPublish customerUpdateExtPublish;
 
+    @Autowired
+    private RedisRepository redisRepository;
+
     /**
      * @param dto
      * @Author ldh
@@ -38,6 +42,7 @@ public class ElasticServiceImpl implements ElasticService {
     @Transactional(rollbackFor = Exception.class)
     @GlobalTransactional(rollbackFor = Exception.class)
     public Boolean saveCustomer(List<CustomerDTO.CustomerInfoDTO> dto, Long corpId) {
+        //测试发送消息
         customerUpdateExtPublish.sendCustomerUpdateExt(dto);
         String indexName = ElasticUtil.createIndexName(corpId, CustomerDTO.CustomerInfoDTO.class);
         boolean flag = Boolean.TRUE;

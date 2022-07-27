@@ -1,7 +1,5 @@
 package com.supper.smallboot.controller;
 
-
-import com.handday.formless.framework.redis.RedisRepository;
 import com.supper.smallboot.biz.dto.CustomerDTO;
 import com.supper.smallboot.biz.vo.CustomerVO;
 import com.supper.smallboot.domain.service.ElasticService;
@@ -27,8 +25,6 @@ public class TestController {
     @Autowired
     private ElasticService elasticService;
 
-    @Autowired
-    private RedisRepository redisRepository;
 
     @PostMapping("/save")
     @ApiOperation("保存数据")
