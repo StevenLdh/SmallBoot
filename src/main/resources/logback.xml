@@ -27,7 +27,7 @@
         <append>true</append>
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <layout class="com.handday.formless.framework.logrecorder.layout.LogBaseLayout">
-                <appId>statistics-service</appId>
+                <appId>small-boot-service</appId>
             </layout>
         </encoder>
     </appender>
