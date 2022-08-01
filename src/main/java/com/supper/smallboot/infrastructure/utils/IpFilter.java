@@ -29,7 +29,7 @@ public class IpFilter implements Filter {
         log.info("拦截请求地址: {}",getRealIp(request));
         log.info("拦截请求: {}",request.getRequestURI());
         //放行
-        if (request.getRequestURI().equals("/api/v1/test/get")) {
+        if (request.getRequestURI().equals("/api/v1/test/get_filter")) {
             response.getWriter().write(JsonUtil.toJSONString(DataResult.result(StateCode.INVOKE_FAILURE,"error")));
             response.setCharacterEncoding("utf-8");
         } else {

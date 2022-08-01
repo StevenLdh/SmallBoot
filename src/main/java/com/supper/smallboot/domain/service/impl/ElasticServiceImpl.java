@@ -4,11 +4,13 @@ import com.handday.formless.framework.redis.RedisRepository;
 import com.supper.smallboot.application.mq.subscribe.CustomerUpdateExtPublish;
 import com.supper.smallboot.biz.dto.CustomerDTO;
 import com.supper.smallboot.biz.vo.CustomerVO;
+import com.supper.smallboot.domain.event.DemoEvent;
 import com.supper.smallboot.domain.service.ElasticService;
 import com.supper.smallboot.infrastructure.utils.ElasticUtil;
 import io.seata.spring.annotation.GlobalTransactional;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.elasticsearch.core.query.StringQuery;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +32,9 @@ public class ElasticServiceImpl implements ElasticService {
 
     @Autowired
     private RedisRepository redisRepository;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     /**
      * @param dto
@@ -68,6 +73,7 @@ public class ElasticServiceImpl implements ElasticService {
      **/
     @Override
     public List<CustomerVO.CustomerInfoVO> getCustomerList(Long corpId) {
+        applicationContext.publishEvent(new DemoEvent(corpId,1));
         String indexName = ElasticUtil.createIndexName(corpId, CustomerDTO.CustomerInfoDTO.class);
         return ElasticUtil.matchQuery(indexName, CORP_ID, corpId.toString(), CustomerVO.CustomerInfoVO.class);
     }

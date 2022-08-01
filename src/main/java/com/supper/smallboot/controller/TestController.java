@@ -37,4 +37,11 @@ public class TestController {
     public List<CustomerVO.CustomerInfoVO> getAll() {
         return elasticService.getCustomerList(150000004L);
     }
+
+    @GetMapping("/get_filter")
+    @ApiOperation("获取数据用于拦截使用")
+    @Login
+    public Boolean getFilter() {
+        return Boolean.TRUE;
+    }
 }
