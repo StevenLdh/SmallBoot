@@ -2,7 +2,7 @@ package com.supper.smallboot.domain.event;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 
 /**
  * @Author ldh
@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Async;
  * @Date 14:02 2022-08-01
  **/
 @Slf4j
+@Component
 public class DemoEventListener {
 
     /**
@@ -19,7 +20,6 @@ public class DemoEventListener {
      * @param demoEvent
      */
     @EventListener
-    @Async
     public void demoEventListener(DemoEvent demoEvent){
         log.info("Event传递的参数：corpId={},customerQty={}",demoEvent.getCorpId(),demoEvent.getCustomerQty());
     }
