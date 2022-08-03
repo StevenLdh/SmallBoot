@@ -1,8 +1,9 @@
 package com.supper.smallboot.domain.event;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 /**
  * @Author ldh
@@ -19,7 +20,7 @@ public class DemoEventListener {
      * @date 2022-08-01 14:13
      * @param demoEvent
      */
-    @EventListener
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void demoEventListener(DemoEvent demoEvent){
         log.info("Event传递的参数：corpId={},customerQty={}",demoEvent.getCorpId(),demoEvent.getCustomerQty());
     }
