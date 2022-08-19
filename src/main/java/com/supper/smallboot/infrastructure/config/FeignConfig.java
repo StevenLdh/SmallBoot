@@ -61,7 +61,7 @@ public class FeignConfig {
      */
     @Bean
     public Decoder erpDecoder(ObjectFactory<HttpMessageConverters> messageConverters) {
-        return new ErpDecoder(new OptionalDecoder(new ResponseEntityDecoder(
+        return new CustomerDecoder(new OptionalDecoder(new ResponseEntityDecoder(
                 new DefaultGzipDecoder(new SpringDecoder(messageConverters)))));
     }
 
@@ -112,9 +112,9 @@ public class FeignConfig {
     /**
      * erp配置接口专用返回值处理器
      */
-    public static class ErpDecoder implements Decoder {
+    public static class CustomerDecoder implements Decoder {
         final Decoder delegate;
-        public ErpDecoder(Decoder delegate) {
+        public CustomerDecoder(Decoder delegate) {
             Objects.requireNonNull(delegate, "Decoder must not be null. ");
             this.delegate = delegate;
         }
@@ -138,7 +138,6 @@ public class FeignConfig {
             }
         }
     }
-
     /**
      *
      * @author ldh

@@ -1,5 +1,12 @@
 package com.supper.smallboot.infrastructure.utils;
 
+import com.supper.smallboot.biz.vo.CustomerVO;
+import org.apache.poi.ss.formula.functions.T;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @Author ldh
  * @Description
@@ -13,6 +20,7 @@ public class DemoUnit {
       * @date 2022-07-26 10:28
       */
      public static void main(String[] args) {
+          List<CustomerVO.CustomerInfoVO> list=new ArrayList<>();
 
 
      }

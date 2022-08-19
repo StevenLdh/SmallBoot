@@ -1,5 +1,6 @@
 package com.supper.smallboot;
 
+import com.handday.formless.framework.common.async.annotation.EnableContextRelatedAsync;
 import com.handday.formless.framework.logrecorder.annotation.EnableLogRecorder;
 import com.handday.formless.framework.swagger.annotation.EnableOpenSwagger;
 import formless.framework.cloud.feign.annotation.EnableHttpDataFeignInterceptor;
@@ -16,6 +17,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableHttpDataFeignInterceptor
 @Slf4j
 @ServletComponentScan
+@EnableContextRelatedAsync
 public class SmallbootApplication {
 
     public static void main(String[] args) {
