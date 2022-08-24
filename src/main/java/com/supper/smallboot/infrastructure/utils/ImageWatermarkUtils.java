@@ -60,7 +60,7 @@ public class ImageWatermarkUtils {
         Font font = null;
         //String fontUrl = getRunSystem() ? WINDOWS_PATH : LINUX_PATH;
         try {
-            font = new Font(fontName, Font.BOLD, (int) (scale * 60));;
+            font = new Font(fontName, Font.PLAIN, (int) (scale * 60));;
         } catch (Exception e) {
             Assert.assertException( "图片加水印获取字体失败");
         }
