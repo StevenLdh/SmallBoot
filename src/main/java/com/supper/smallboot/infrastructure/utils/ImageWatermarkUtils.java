@@ -17,7 +17,7 @@ public class ImageWatermarkUtils {
 
     static final String NEW_IMAGE_NAME_PRE_STR = "_water";
     // 水印透明度
-    private static float alpha = 0.5f;
+    private static float alpha = 1f;
     // 水印横向位置
     private static int positionWidth = 300;
     // 水印纵向位置
@@ -46,9 +46,9 @@ public class ImageWatermarkUtils {
      * @param args
      */
     public static void main(String[] args) {
-        String srcImgPath = "C:\\Users\\123\\Desktop\\IMG\\WW.png";
-        String iconPath =  "C:\\Users\\123\\Desktop\\IMG\\WWW.png";
-        markImageByText("报价专用", srcImgPath, iconPath, 1);
+        String srcImgPath = "C:\\Users\\123\\Desktop\\IMG\\狗2.png";
+        String iconPath =  "C:\\Users\\123\\Desktop\\IMG\\狗3.png";
+        markImageByText("报价专用", srcImgPath, iconPath, 10);
     }
 
     /**
@@ -60,7 +60,7 @@ public class ImageWatermarkUtils {
         Font font = null;
         //String fontUrl = getRunSystem() ? WINDOWS_PATH : LINUX_PATH;
         try {
-            font = new Font(fontName, Font.PLAIN, (int) (scale * 60));;
+            font = new Font(fontName, Font.PLAIN, (int) (scale * 40));;
         } catch (Exception e) {
             Assert.assertException( "图片加水印获取字体失败");
         }
@@ -99,8 +99,7 @@ public class ImageWatermarkUtils {
             Image srcImg = ImageIO.read(new File(srcImgPath));
             int width = (int) (scale *srcImg.getWidth(null));
             int height =  (int) (scale *srcImg.getHeight(null));
-            positionWidth = width - (int) (scale *300);
-            positionHeight = height - (int) (scale *80);
+
 
             BufferedImage buffImg = new BufferedImage(width, height,
                     BufferedImage.TYPE_INT_RGB);
@@ -122,7 +121,19 @@ public class ImageWatermarkUtils {
             // 7、设置水印文字透明度
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha));
             // 8、第一参数->设置的内容，后面两个参数->文字在图片上的坐标位置(x,y)
-            g.drawString(logoText, positionWidth, positionHeight);
+            int ws = 100;
+            int hs = 60;
+            //多个文字水印
+            for (int i = 0; i < width; i = i + ws) {
+                for (int j = 0; j < height; j = j + hs) {
+                    g.drawString(logoText, i, j);
+                }
+            }
+            //单个文字水印
+//            positionWidth = width - (int) (scale * 300);
+//            positionHeight = height - (int) (scale * 80);
+//            g.drawString(logoText, positionWidth, positionHeight);
+
             // 9、释放资源
             g.dispose();
             // 10、生成图片
