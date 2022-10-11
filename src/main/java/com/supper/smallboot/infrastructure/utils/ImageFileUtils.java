@@ -1,4 +1,4 @@
-package com.handday.saas.print.util;
+package com.supper.smallboot.infrastructure.utils;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -146,7 +146,9 @@ public class ImageFileUtils {
      * @date 2022/4/19 14:23
      */
     public static BufferedImage getBufferedImage(String url, int width, int height) throws Exception {
-        if (!isNetFileAvailable(url)) return null;
+        if (!isNetFileAvailable(url)) {
+            return null;
+        }
         URL httpUrl = new URL(url);
         //压缩质量为50%
         ByteArrayOutputStream out = new ByteArrayOutputStream();

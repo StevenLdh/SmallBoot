@@ -163,6 +163,12 @@
             <artifactId>spring-data-mongodb</artifactId>
             <version>3.0.2.RELEASE</version>
         </dependency>
+        <!--图片进行缩放、旋转以及加水印的处理-->
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.8</version>
+        </dependency>
     </dependencies>
 
     <build>

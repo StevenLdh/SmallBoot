@@ -42,14 +42,6 @@ public class ImageWatermarkUtils {
      * 字体
      */
     private static String fontName="思源黑体 CN Medium";
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        String srcImgPath = "C:\\Users\\123\\Desktop\\IMG\\狗2.png";
-        String iconPath =  "C:\\Users\\123\\Desktop\\IMG\\狗3.png";
-        markImageByText("报价专用", srcImgPath, iconPath, 10);
-    }
 
     /**
      * 获取字体
@@ -79,6 +71,8 @@ public class ImageWatermarkUtils {
         }
         return false;
     }
+
+
     /**
      * 给图片添加水印文字、可设置水印文字的旋转角度
      *
@@ -87,20 +81,10 @@ public class ImageWatermarkUtils {
      * @param targerPath
      * @param degree
      */
-    public static void markImageByText(String logoText, String srcImgPath, String targerPath, Integer degree) {
-
-        InputStream is = null;
-        OutputStream os = null;
-
-        try {
-//			targerPath = srcImgPath.substring(0, srcImgPath.lastIndexOf(".")) + NEW_IMAGE_NAME_PRE_STR + "f"
-//					+ srcImgPath.substring(srcImgPath.lastIndexOf("."));
+    public static BufferedImage markImageByText(String logoText, Image srcImg, Integer degree) {
             // 1、源图片
-            Image srcImg = ImageIO.read(new File(srcImgPath));
             int width = (int) (scale *srcImg.getWidth(null));
             int height =  (int) (scale *srcImg.getHeight(null));
-
-
             BufferedImage buffImg = new BufferedImage(width, height,
                     BufferedImage.TYPE_INT_RGB);
 
@@ -136,27 +120,6 @@ public class ImageWatermarkUtils {
 
             // 9、释放资源
             g.dispose();
-            // 10、生成图片
-            os = new FileOutputStream(targerPath);
-            ImageIO.write(buffImg, "JPG", os);
-
-            System.out.println("图片完成添加水印文字");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (null != is)
-                    is.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                if (null != os)
-                    os.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+            return buffImg;
     }
 }
