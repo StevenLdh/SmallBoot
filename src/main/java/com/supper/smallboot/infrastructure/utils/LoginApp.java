@@ -49,6 +49,7 @@ public class LoginApp {
                 break;
         }
         System.out.println("请输入需要登录的企业账号(例如：150000000)：");
+        //获取职员信息
         Long corpId = Long.parseLong(input.next());
         String getStafferInfo = String.format("%s/saas-statistics-service/api/v1/test/get_staffer?corpId=%s", apiUrl, corpId);
         String stafferData = OkHttpUtil.get(getStafferInfo, null);
@@ -81,6 +82,7 @@ public class LoginApp {
             input.close(); // 关闭资源
             return;
         }
+        //获取token
         String getTokenUrl = String.format("%s/oauth-service/oauth/token?wxCorpId=%s&wxUserId=%s&grant_type=work_wx_authentication&client_id=40087685617893436&client_secret=40087685617893436&corpId=%s", apiUrl, wxCorpId, wxUserId, corpId);
         String data = OkHttpUtil.postFormParams(getTokenUrl, null);
         String pcUrl = "";
