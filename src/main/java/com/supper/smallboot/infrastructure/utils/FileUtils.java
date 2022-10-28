@@ -30,4 +30,27 @@ public class FileUtils {
         }
         br.close();
     }
+
+    /**
+     * 根据文件路径写入文件内容
+     * @author ldh
+     * @date 2022-10-28 16:19
+     * @param fileInPath
+     * @param data
+     */
+    public static void writeFileContent(Object fileInPath,String data) throws IOException {
+        BufferedWriter bw = null;
+        if (fileInPath == null) {
+            return;
+        }
+        if (fileInPath instanceof String) {
+            bw = new BufferedWriter(new FileWriter((String) fileInPath, true));
+        } else if (fileInPath instanceof OutputStream) {
+            bw = new BufferedWriter(new OutputStreamWriter((OutputStream) fileInPath));
+        }
+        assert bw != null;
+        bw.write(data);
+        bw.newLine();
+        bw.close();
+    }
 }

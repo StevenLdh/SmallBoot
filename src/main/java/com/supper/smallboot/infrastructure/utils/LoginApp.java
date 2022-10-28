@@ -1,24 +1,35 @@
 package com.supper.smallboot.infrastructure.utils;
 
-import com.handday.formless.framework.common.apiresult.DataResult;
-import com.handday.formless.framework.common.utils.JsonUtil;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.alibaba.fastjson.JSON;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
  * @Author ldh
- * @Description
+ * @Description 用于模拟登录
  * @Date 17:09 2022-10-21
  **/
 public class LoginApp {
+    //DEV pc登录地址
+    private static String pcEnv = "https://dev-hdsaas.facehand.cn/pmweb/home?token=";
+    //DEV H5登录地址
+    private static String h5Env = "https://dev-hdsaas.facehand.cn/dhwap/?token=";
+    //DEV 接口地址
+    private static String apiUrl = "https://dev-hdsaas.facehand.cn/gateway";
+    /**
+     * 启动项
+     * @author ldh
+     * @date 2022-10-25 10:31
+     * @param args
+     */
     public static void main(String[] args) {
         loginMethod();
     }
+
     /**
      * 用于登录使用
      *
@@ -28,10 +39,42 @@ public class LoginApp {
     private static void loginMethod() {
         System.out.println("--------------------用于登录使用开始----------------------------------");
         Scanner input = new Scanner(System.in);
+        System.out.println("是否使用默认账号(dev pc 150000004 李德华)(是：1，否：0)");
+        String temp = input.next();
+        if (temp.equals("1")) {
+            loginDefault(input);
+        } else {
+            loginSelect(input);
+        }
+        input.close();
+        System.out.println("--------------------用于登录使用结束----------------------------------");
+    }
+
+    /**
+     * 使用默认账号登录
+     *
+     * @param input
+     * @author ldh
+     * @date 2022-10-25 10:20
+     */
+    public static void loginDefault(Scanner input) {
+        String token = getToken("wwb41f00107f94f73d", "LiDeHua", 150000004L, apiUrl);
+        if (StringUtils.isNotEmpty(token)) {
+            openUrl(String.format("%s%s", pcEnv, token));
+        } else {
+            System.out.println("获取token失败");
+        }
+    }
+
+    /**
+     * 选择登录方式
+     *
+     * @param input
+     * @author ldh
+     * @date 2022-10-25 10:15
+     */
+    public static void loginSelect(Scanner input) {
         String val = null;
-        String pcEnv = "https://dev-hdsaas.facehand.cn/pmweb/home?token=";
-        String h5Env = "https://dev-hdsaas.facehand.cn/dhwap/?token=";
-        String apiUrl = "https://dev-hdsaas.facehand.cn/gateway";
         System.out.println("请输入需要登录的环境(例如：dev,fat,pre)：");
         val = input.next();
         switch (val) {
@@ -48,16 +91,20 @@ public class LoginApp {
             default:
                 break;
         }
-        System.out.println("请输入需要登录的企业账号(例如：150000000)：");
+        System.out.println("请输入需要登录的企业账号,如果不输入默认为(例如：150000000)：");
         //获取职员信息
         Long corpId = Long.parseLong(input.next());
         String getStafferInfo = String.format("%s/saas-statistics-service/api/v1/test/get_staffer?corpId=%s", apiUrl, corpId);
         String stafferData = OkHttpUtil.get(getStafferInfo, null);
         List<StafferVo> list = new ArrayList<>();
         if (StringUtils.isNotEmpty(stafferData)) {
-            DataResult result = JsonUtil.toObject(stafferData, DataResult.class);
-            if(Objects.nonNull(result.getData())){
-                list =JsonUtil.toList(JsonUtil.toJSONString(result.getData()),StafferVo.class);
+            DataResult temp = JSON.parseObject(stafferData, DataResult.class);
+            if (Objects.nonNull(temp.getData()) && temp.getData().size() > 0) {
+                list = temp.getData();
+            } else {
+                System.out.println("获取地址职员列表信息失败");
+                input.close(); // 关闭资源
+                return;
             }
         } else {
             System.out.println("获取地址职员列表信息失败");
@@ -82,15 +129,12 @@ public class LoginApp {
             input.close(); // 关闭资源
             return;
         }
-        //获取token
-        String getTokenUrl = String.format("%s/oauth-service/oauth/token?wxCorpId=%s&wxUserId=%s&grant_type=work_wx_authentication&client_id=40087685617893436&client_secret=40087685617893436&corpId=%s", apiUrl, wxCorpId, wxUserId, corpId);
-        String data = OkHttpUtil.postFormParams(getTokenUrl, null);
         String pcUrl = "";
         String h5Url = "";
-        if (StringUtils.isNotEmpty(data)) {
-            UserTokenVO uv = JsonUtil.toObject(data, UserTokenVO.class);
-            pcUrl = String.format("%s%s", pcEnv, uv.getData().getAccess_token());
-            h5Url = String.format("%s%s", h5Env, uv.getData().getAccess_token());
+        String token = getToken(wxCorpId, wxUserId, corpId, apiUrl);
+        if (StringUtils.isNotEmpty(token)) {
+            pcUrl = String.format("%s%s", pcEnv, token);
+            h5Url = String.format("%s%s", h5Env, token);
             System.out.printf("PC地址：%s%n", pcUrl);
             System.out.printf("H5地址：%s%n", h5Url);
         } else {
@@ -110,6 +154,36 @@ public class LoginApp {
             input.close(); // 关闭资源
             return;
         }
+        openUrl(url);
+    }
+    /**
+     * 获取token数据
+     *
+     * @param wxCorpId
+     * @param wxUserId
+     * @param corpId
+     * @author ldh
+     * @date 2022-10-25 9:53
+     */
+    private static String getToken(String wxCorpId, String wxUserId, Long corpId, String apiUrl) {
+        String getTokenUrl = String.format("%s/oauth-service/oauth/token?wxCorpId=%s&wxUserId=%s&grant_type=work_wx_authentication&client_id=40087685617893436&client_secret=40087685617893436&corpId=%s", apiUrl, wxCorpId, wxUserId, corpId);
+        String data = OkHttpUtil.postFormParams(getTokenUrl, null);
+        if (StringUtils.isNotEmpty(data)) {
+            UserTokenVO uv = JSON.parseObject(data, UserTokenVO.class);
+            return uv.getData().getAccess_token();
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * 打开地址
+     *
+     * @param url
+     * @author ldh
+     * @date 2022-10-25 9:55
+     */
+    private static void openUrl(String url) {
         try {
             java.net.URI uri = java.net.URI.create(url);
             // 获取当前系统桌面扩展
@@ -119,53 +193,50 @@ public class LoginApp {
                 // 获取系统默认浏览器打开链接
                 dp.browse(uri);
             }
-        } catch (java.lang.NullPointerException e) {
+        } catch (NullPointerException | IOException e) {
             // 此为uri为空时抛出异常
             e.printStackTrace();
-        } catch (java.io.IOException e) {
-            // 此为无法获取系统默认浏览器
-            e.printStackTrace();
-        } finally {
-            input.close(); // 关闭资源
         }
-        System.out.println("--------------------用于登录使用结束----------------------------------");
     }
 
 
-    @ApiModel(description = "客户资料")
+    @Data
+    @Accessors(chain = true)
+    public static class DataResult {
+
+        private String code;
+
+        private String message;
+
+        private List<StafferVo> data;
+    }
+
+
     @Data
     @Accessors(chain = true)
     public static class UserTokenVO {
 
-        @ApiModelProperty(value = "data", required = true)
         private UserToken data;
     }
-    @ApiModel(description = "客户资料")
+
     @Data
     @Accessors(chain = true)
     public static class UserToken {
 
-        @ApiModelProperty(value = "access_token", required = true)
         private String access_token;
 
-        @ApiModelProperty(value = "token_type", required = true)
         private String token_type;
 
-        @ApiModelProperty(value = "refresh_token", required = true)
         private String refresh_token;
     }
 
 
-    @ApiModel("获取职员信息vo")
     @Data
     public static class StafferVo {
-        @ApiModelProperty("职员名称")
         private String stafferName;
 
-        @ApiModelProperty("wxCorpId")
         private String wxCorpId;
 
-        @ApiModelProperty("wxUserId")
         private String wxUserId;
     }
 }

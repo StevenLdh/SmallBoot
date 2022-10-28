@@ -1,15 +1,8 @@
 package com.supper.smallboot.infrastructure.utils;
 
-import com.handday.formless.framework.common.apiresult.DataResult;
-import com.handday.formless.framework.common.utils.JsonUtil;
 import com.supper.smallboot.biz.vo.CustomerVO;
 import com.supper.smallboot.infrastructure.anaotation.ExcelCell;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -36,8 +29,9 @@ public class DemoUnit {
      * @date 2022-07-26 10:28
      */
     public static void main(String[] args) {
-        //new DemoUnit().readResources("/settings/setting.txt");
+        new DemoUnit().readResources("/settings/setting.txt");
         //creatImg();
+
     }
     /**
      * 测试注解解析
@@ -63,6 +57,8 @@ public class DemoUnit {
      */
     private void readResources(String fileName) {
         try {
+            String filePath=  "D:\\JavaSpace\\exercise\\smallboot\\src\\main\\resources\\settings\\setting.txt";
+            FileUtils.writeFileContent(filePath,"\\n测试写入数据");
             InputStream inputStream = this.getClass().getResourceAsStream(fileName);
             FileUtils.getFileContent(inputStream);
         } catch (IOException e) {
